@@ -1,0 +1,1007 @@
+package porteiro;
+
+import conexao.Conexao;
+import controle.login;
+import java.awt.Color;
+import java.awt.Image;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author werlang
+ */
+public class frm_gerenc_veiculos extends javax.swing.JFrame {
+    
+    // Declarando um atributo para armazenar o ID do morador:
+    private int idVeiculoSelecionado = -1;
+    
+    /**
+     * @return the idVeiculoSelecionado
+     */
+    public int getIdVeiculoSelecionado() {
+        return idVeiculoSelecionado;
+    }
+
+    /**
+     * @param idVeiculoSelecionado the idVeiculoSelecionado to set
+     */
+    public void setIdVeiculoSelecionado(int idVeiculoSelecionado) {
+        this.idVeiculoSelecionado = idVeiculoSelecionado;
+    }
+
+    
+    // Declarando um atributo para armazenar o ID do morador:
+    private String nomeMoradorSelecionado = " ";
+    
+    /**
+     * @return the nomeMoradorSelecionado
+     */
+    public String getNomeMoradorSelecionado() {
+        return nomeMoradorSelecionado;
+    }
+
+    /**
+     * @param nomeMoradorSelecionado the nomeMoradorSelecionado to set
+     */
+    public void setNomeMoradorSelecionado(String nomeMoradorSelecionado) {
+        this.nomeMoradorSelecionado = nomeMoradorSelecionado;
+    }
+
+    
+    // Declarando um atributo para armazenar o ID do morador:
+    private String numeroApSelecionado = " ";
+    
+    /**
+     * @return the numeroApSelecionado
+     */
+    public String getNumeroApSelecionado() {
+        return numeroApSelecionado;
+    }
+
+    /**
+     * @param numeroApSelecionado the numeroApSelecionado to set
+     */
+    public void setNumeroApSelecionado(String numeroApSelecionado) {
+        this.numeroApSelecionado = numeroApSelecionado;
+    }
+
+    // Declarando um atributo para armazenar o ID do morador:
+    private int idMoradorSelecionado = -1;
+    
+    //Métodos set e get:
+    public void setIdMoradorSelecionado(int idMoradorSelecionado) {
+        this.idMoradorSelecionado = idMoradorSelecionado;
+    }
+    
+    public int getIdMoradorSelecionado() {
+        return idMoradorSelecionado;
+    }
+    
+    /**
+     * @return the id_user
+     */
+    public int getId_user() {
+        return id_user;
+    }
+
+    /**
+     * @param id_user the id_user to set
+     */
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
+    }
+
+    /**
+     * @return the id_cond
+     */
+    public int getId_cond() {
+        return id_cond;
+    }
+
+    /**
+     * @param id_cond the id_cond to set
+     */
+    public void setId_cond(int id_cond) {
+        this.id_cond = id_cond;
+    }
+
+    //Objeto com atributos da classe Connection. Finalidade: Ligação com Banco de Dados.
+    Connection con = null;
+    
+    //Objeto com atributos da classe ResultSet. Finalidade: Procura dos registros do banco.
+    ResultSet rs = null;
+    
+    /*Objeto com atributos da classe PreparedStatement. 
+    Finalidade: Adicionar os dados inseridos pelo usuário na busca de dados do banco.*/
+    PreparedStatement ps = null;
+    
+    
+    //Atributos utilizados para passagem de parâmetro e comparação de dados:
+    private int id_cond;
+    private int id_user;
+    
+    /**
+     * Creates new form frm_gerenc_veiculos
+     */
+    public frm_gerenc_veiculos(int realCond, int realIdUser) {
+        initComponents();
+        con = Conexao.conecta();
+        initVars(realCond, realIdUser);
+        logo();
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        try 
+        {
+            String pesquisa = "SELECT veiculos.*, morador.* " +
+            "FROM condominio " +
+            "INNER JOIN morador ON condominio.id_condominio = morador.id_condominio " +
+            "INNER JOIN veiculos ON morador.num_registro = veiculos.num_registro " +
+            "WHERE condominio.id_condominio = ?"; // Usando um parâmetro
+            
+            ps = con.prepareStatement(pesquisa);
+            ps.setInt(1, id_cond);
+            rs = ps.executeQuery();
+        } 
+        catch (SQLException ex) 
+        {
+            JOptionPane.showMessageDialog(null, "Dados não localizados!" + ex, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }
+        preencherTabela();
+        atualizarComboBox();
+    }
+
+    //Método initVars() responsável por passar parâmetros de dados do usuário e
+    //adicioná-los em atributos locais (da classe):
+    private void initVars(int realCond,  int realIdUser)
+    {        
+        setId_cond(realCond);
+        setId_user(realIdUser);
+    }
+    
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        back1 = new javax.swing.JPanel();
+        back2 = new javax.swing.JPanel();
+        lblLogo = new javax.swing.JLabel();
+        btn_home = new javax.swing.JButton();
+        btn_exit = new javax.swing.JButton();
+        back3 = new javax.swing.JPanel();
+        tfPlaca = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl_veiculos = new javax.swing.JTable();
+        jcb_morador = new javax.swing.JComboBox<>();
+        btn_Criar = new javax.swing.JButton();
+        btn_Alterar = new javax.swing.JButton();
+        btn_Excluir = new javax.swing.JButton();
+        lbl_Titulo = new javax.swing.JLabel();
+        btn_gerenc_mor = new javax.swing.JButton();
+        btn_gerenc_vei = new javax.swing.JButton();
+        btn_gerenc_ent = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        back1.setBackground(new java.awt.Color(11, 25, 49));
+
+        back2.setBackground(new java.awt.Color(11, 25, 49));
+
+        btn_home.setBackground(new java.awt.Color(51, 121, 241));
+        btn_home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/button/home.png"))); // NOI18N
+        btn_home.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_homeActionPerformed(evt);
+            }
+        });
+
+        btn_exit.setBackground(new java.awt.Color(51, 121, 241));
+        btn_exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/button/exit.png"))); // NOI18N
+        btn_exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_exitActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout back2Layout = new javax.swing.GroupLayout(back2);
+        back2.setLayout(back2Layout);
+        back2Layout.setHorizontalGroup(
+            back2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(back2Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 856, Short.MAX_VALUE)
+                .addComponent(btn_home, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_exit, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
+        );
+        back2Layout.setVerticalGroup(
+            back2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, back2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(back2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                    .addGroup(back2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(back2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btn_home, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_exit, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+        );
+
+        back3.setBackground(new java.awt.Color(212, 223, 253));
+
+        tfPlaca.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        tfPlaca.setForeground(new java.awt.Color(153, 153, 153));
+        tfPlaca.setText("Digite a Placa...");
+        tfPlaca.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfPlacaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfPlacaFocusLost(evt);
+            }
+        });
+
+        tbl_veiculos.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tbl_veiculos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Morador", "Placa do Veículo"
+            }
+        ));
+        tbl_veiculos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_veiculosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbl_veiculos);
+
+        jcb_morador.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+
+        btn_Criar.setBackground(new java.awt.Color(51, 121, 241));
+        btn_Criar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_Criar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_Criar.setText("Criar");
+        btn_Criar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CriarActionPerformed(evt);
+            }
+        });
+
+        btn_Alterar.setBackground(new java.awt.Color(51, 121, 241));
+        btn_Alterar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_Alterar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_Alterar.setText("Alterar ");
+        btn_Alterar.setEnabled(false);
+        btn_Alterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AlterarActionPerformed(evt);
+            }
+        });
+
+        btn_Excluir.setBackground(new java.awt.Color(51, 121, 241));
+        btn_Excluir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_Excluir.setForeground(new java.awt.Color(255, 255, 255));
+        btn_Excluir.setText("Excluir");
+        btn_Excluir.setEnabled(false);
+        btn_Excluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ExcluirActionPerformed(evt);
+            }
+        });
+
+        lbl_Titulo.setBackground(new java.awt.Color(11, 25, 49));
+        lbl_Titulo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lbl_Titulo.setText("VEÍCULOS DE MORADORES\n");
+
+        javax.swing.GroupLayout back3Layout = new javax.swing.GroupLayout(back3);
+        back3.setLayout(back3Layout);
+        back3Layout.setHorizontalGroup(
+            back3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, back3Layout.createSequentialGroup()
+                .addGap(275, 275, 275)
+                .addGroup(back3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, back3Layout.createSequentialGroup()
+                        .addComponent(jcb_morador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(275, 275, 275))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, back3Layout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addComponent(tfPlaca)
+                        .addGap(348, 348, 348))))
+            .addGroup(back3Layout.createSequentialGroup()
+                .addGap(164, 164, 164)
+                .addGroup(back3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(back3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(back3Layout.createSequentialGroup()
+                            .addComponent(btn_Criar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGap(18, 18, 18)
+                            .addComponent(btn_Alterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGap(18, 18, 18)
+                            .addComponent(btn_Excluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1))
+                    .addComponent(lbl_Titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(170, 170, 170))
+        );
+        back3Layout.setVerticalGroup(
+            back3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(back3Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jcb_morador, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(tfPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addGroup(back3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_Criar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_Alterar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_Excluir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(51, 51, 51)
+                .addComponent(lbl_Titulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                .addGap(18, 18, 18))
+        );
+
+        btn_gerenc_mor.setBackground(new java.awt.Color(51, 121, 241));
+        btn_gerenc_mor.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btn_gerenc_mor.setForeground(new java.awt.Color(255, 255, 255));
+        btn_gerenc_mor.setText("<html>  \n<center>  \nGerenciamento <br/> dos Moradores\n</center> \n</html>");
+        btn_gerenc_mor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_gerenc_morActionPerformed(evt);
+            }
+        });
+
+        btn_gerenc_vei.setBackground(new java.awt.Color(0, 53, 143));
+        btn_gerenc_vei.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btn_gerenc_vei.setForeground(new java.awt.Color(255, 255, 255));
+        btn_gerenc_vei.setText("<html>  \n<center>  \nGerenciamento <br/> de Veículos\n</center> \n</html>");
+        btn_gerenc_vei.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_gerenc_veiActionPerformed(evt);
+            }
+        });
+
+        btn_gerenc_ent.setBackground(new java.awt.Color(51, 121, 241));
+        btn_gerenc_ent.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btn_gerenc_ent.setForeground(new java.awt.Color(255, 255, 255));
+        btn_gerenc_ent.setText("<html> \n<center> \nRegistro <br/> de Entrada\n</center>\n</html>");
+        btn_gerenc_ent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_gerenc_entActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout back1Layout = new javax.swing.GroupLayout(back1);
+        back1.setLayout(back1Layout);
+        back1Layout.setHorizontalGroup(
+            back1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(back2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(back1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(back1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_gerenc_mor, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_gerenc_vei, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_gerenc_ent, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(back3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        back1Layout.setVerticalGroup(
+            back1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(back1Layout.createSequentialGroup()
+                .addComponent(back2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(back1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(back1Layout.createSequentialGroup()
+                        .addGap(72, 72, 72)
+                        .addComponent(btn_gerenc_mor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btn_gerenc_vei, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25)
+                        .addComponent(btn_gerenc_ent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, back1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(back3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(back1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(back1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_gerenc_morActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_gerenc_morActionPerformed
+        try 
+        {
+            //Comando SQL
+            String pesquisa = "SELECT porteiro.id_condominio, usuario.id_usuario " +
+                              "FROM porteiro " +
+                              "INNER JOIN usuario ON porteiro.id_usuario = usuario.id_usuario " +
+                              "WHERE usuario.id_usuario = ?"; // Usando um parâmetro
+
+            /*Comando que "prepara" declaração para busca no banco, onde os dados 
+            inseridos serão colocados no lugar do '?' de cada campo do select*/
+            ps = con.prepareStatement(pesquisa);
+            
+            //Adicionando os dados inseridos ao parâmetro:
+            ps.setInt(1, getId_user());
+
+            //Execução da busca:
+            rs = ps.executeQuery();
+
+            //Validando o registro do porteiro:
+            if(rs.next()) {
+                /*Chamando alguns atributos da tabela do banco para a passagem de 
+                parâmetro e indo para tela de gerenciamento de moradores:*/
+                int realCond = rs.getInt("id_condominio");
+                int realIdUser = rs.getInt("id_usuario");
+                
+                //Acessando a interface de gerenciamento de moradores:
+                frm_gerenc_moradores mostra = new frm_gerenc_moradores(realCond, realIdUser);
+                mostra.setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Identificação de Condomínio falhou, por favor, consulte a empresa para mais detalhes!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } 
+        catch (SQLException ex) 
+        {
+            JOptionPane.showMessageDialog(null, "Dados não localizados!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }        
+    }//GEN-LAST:event_btn_gerenc_morActionPerformed
+
+    private void btn_exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_exitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btn_exitActionPerformed
+
+    private void btn_homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_homeActionPerformed
+        login mostra = new login();
+        mostra.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btn_homeActionPerformed
+
+    private void btn_gerenc_veiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_gerenc_veiActionPerformed
+        try 
+        {
+            //Comando SQL
+            String pesquisa = "SELECT porteiro.id_condominio, usuario.id_usuario " +
+                              "FROM veiculos " +
+                              "INNER JOIN morador ON veiculos.num_registro = morador.num_registro " +
+                              "INNER JOIN condominio ON morador.id_condominio = condominio.id_condominio " +
+                              "INNER JOIN porteiro ON condominio.id_condominio = porteiro.id_condominio " +
+                              "INNER JOIN usuario ON porteiro.id_usuario = usuario.id_usuario " +
+                              "WHERE usuario.id_usuario = ?"; // Usando um parâmetro
+
+            /*Comando que "prepara" declaração para busca no banco, onde os dados 
+            inseridos serão colocados no lugar do '?' de cada campo do select*/
+            ps = con.prepareStatement(pesquisa);
+            
+            //Adicionando os dados inseridos ao parâmetro:
+            ps.setInt(1, getId_user());
+
+            //Execução da busca:
+            rs = ps.executeQuery();
+
+            //Validando o registro do porteiro:
+            if(rs.next()) {
+                /*Chamando alguns atributos da tabela do banco para a passagem de 
+                parâmetro e indo para tela de gerenciamento de moradores:*/
+                int realCond = rs.getInt("id_condominio");
+                int realIdUser = rs.getInt("id_usuario");
+                
+                //Acessando a interface de gerenciamento de moradores:
+                frm_gerenc_veiculos mostra = new frm_gerenc_veiculos(realCond, realIdUser);
+                mostra.setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Identificação de Condomínio falhou, por favor, consulte a empresa para mais detalhes!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } 
+        catch (SQLException ex) 
+        {
+            JOptionPane.showMessageDialog(null, "Dados não localizados!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }        
+    }//GEN-LAST:event_btn_gerenc_veiActionPerformed
+
+    private void btn_gerenc_entActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_gerenc_entActionPerformed
+        try 
+        {
+            //Comando SQL
+            String pesquisa = "SELECT porteiro.id_condominio, usuario.id_usuario " +
+                              "FROM entrada " +
+                              "INNER JOIN veiculos ON entrada.id_veiculos = veiculos.id_veiculos " +
+                              "INNER JOIN morador ON veiculos.num_registro = morador.num_registro " +
+                              "INNER JOIN condominio ON morador.id_condominio = condominio.id_condominio " +
+                              "INNER JOIN porteiro ON condominio.id_condominio = porteiro.id_condominio " +
+                              "INNER JOIN usuario ON porteiro.id_usuario = usuario.id_usuario " +
+                              "WHERE usuario.id_usuario = ?"; // Usando um parâmetro
+
+            /*Comando que "prepara" declaração para busca no banco, onde os dados 
+            inseridos serão colocados no lugar do '?' de cada campo do select*/
+            ps = con.prepareStatement(pesquisa);
+            
+            //Adicionando os dados inseridos ao parâmetro:
+            ps.setInt(1, getId_user());
+
+            //Execução da busca:
+            rs = ps.executeQuery();
+
+            //Validando o registro do porteiro:
+            if(rs.next()) 
+            {
+                /*Chamando alguns atributos da tabela do banco para a passagem de 
+                parâmetro e indo para tela de gerenciamento de moradores:*/
+                int realCond = rs.getInt("id_condominio");
+                int realIdUser = rs.getInt("id_usuario");     
+                
+                //Acessando a interface de gerenciamento de entrada:
+                frm_gerenc_entrada mostra = new frm_gerenc_entrada(realCond, realIdUser);
+                mostra.setVisible(true);
+                dispose();
+                
+            } 
+            else 
+            {
+                JOptionPane.showMessageDialog(null, "Identificação de Condomínio falhou, por favor, consulte a empresa para mais detalhes!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+        } 
+        catch (SQLException ex) 
+        {
+            JOptionPane.showMessageDialog(null, "Dados não localizados!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_gerenc_entActionPerformed
+
+    private void btn_CriarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CriarActionPerformed
+        String selectedItem = (String) jcb_morador.getSelectedItem();
+        String placa = tfPlaca.getText();
+        if (selectedItem != null) 
+        {
+        String[] parts = selectedItem.split(" - ");
+            if (parts.length == 2)
+            {
+                String nomeMorador = parts[0];
+                String numeroAp = parts[1];
+                
+                try {
+                    String pesquisaIdMorador = "SELECT num_registro FROM morador WHERE nome_morador = ? AND numeroAp = ?";
+                    ps = con.prepareStatement(pesquisaIdMorador);
+                    ps.setString(1, nomeMorador);
+                    ps.setString(2, numeroAp);
+
+                    rs = ps.executeQuery();
+                    if (rs.next()) {
+                        int idMorador = rs.getInt("num_registro");
+                        setIdMoradorSelecionado(idMorador);
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Não foi possível obter os dados requisitados!", "Mensagem do Programa", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } 
+            else 
+            {
+                JOptionPane.showMessageDialog(null, "Não foi possível obter os dados requisitados!", "Mensagem do Programa", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Por favor, selecione um morador para registrar um veículo!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        if(!"Digite a Placa...".equals(placa)){
+            if(placa.length() == 7)
+            {
+                if (placa.matches("[A-Z]{3}[0-9]{1}[A-Z]{1}[0-9]{2}") || placa.matches("^[A-Z]{3}[0-9]{4}$")) 
+                {
+                    try
+                    {
+                        //Comando SQL:
+                        String insert_sql="INSERT into veiculos (num_registro,placa_veiculo) values ('" + getIdMoradorSelecionado() + "','" + placa + "')";
+
+                        //Execução do comando SQL:
+                        ps.executeUpdate(insert_sql);
+
+                        //Informando gravação realizada com sucesso:
+                        JOptionPane.showMessageDialog(null, "Gravação Realizada com sucesso!!!", "Mensagem do programa", JOptionPane.INFORMATION_MESSAGE);
+
+
+                        String pesquisa = "SELECT veiculos.*, morador.* " +
+                        "FROM condominio " +
+                        "INNER JOIN morador ON condominio.id_condominio = morador.id_condominio " +
+                        "INNER JOIN veiculos ON morador.num_registro = veiculos.num_registro " +
+                        "WHERE condominio.id_condominio = ?"; // Usando um parâmetro
+
+                        ps = con.prepareStatement(pesquisa);
+                        ps.setInt(1, id_cond);
+                        rs = ps.executeQuery();
+                        rs.first();
+
+                        //Chamando o Método preencherTabela():
+                        preencherTabela();
+
+                        //Chamando o Método limparCampos():
+                        limparCampos();
+                    }
+                    catch(SQLException errosql)
+                    {
+                        JOptionPane.showMessageDialog(null, "\n Erro ao gravar os dados" + errosql, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+                    }                                                         
+                } 
+                else 
+                {
+                    JOptionPane.showMessageDialog(null, "A placa não está no formato válido!", "Mensagem do Programa", JOptionPane.ERROR_MESSAGE);
+                }                
+            }else
+            {
+                JOptionPane.showMessageDialog(null, "O valor da placa é inválido! Verifique os dados e digite novamente");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Por favor, digite o valor da placa!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_btn_CriarActionPerformed
+
+    private void btn_AlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AlterarActionPerformed
+    // Armazenando valores dos campos de texto e linha selecionada em atributos:
+    int linha_selecionada = tbl_veiculos.getSelectedRow();
+    int idVeiculo = getIdVeiculoSelecionado();
+    String placa = tfPlaca.getText();
+    String comboBoxClone = jcb_morador.getSelectedItem().toString();
+    
+    if (comboBoxClone != null) {
+        String[] parts = comboBoxClone.split(" - ");
+            if (parts.length == 2)
+            {
+                String nomeMorador = parts[0];
+                setNomeMoradorSelecionado(nomeMorador);
+                String numeroAp = parts[1];
+                setNumeroApSelecionado(numeroAp);
+                
+                try {
+                    String pesquisaIdMorador = "SELECT num_registro FROM morador WHERE nome_morador = ? AND numeroAp = ?";
+                    ps = con.prepareStatement(pesquisaIdMorador);
+                    ps.setString(1, nomeMorador);
+                    ps.setString(2, numeroAp);
+
+                    rs = ps.executeQuery();
+                    if (rs.next()) {
+                        int idMorador = rs.getInt("num_registro");
+                        setIdMoradorSelecionado(idMorador);
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Não foi possível obter os dados requisitados!", "Mensagem do Programa", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Não foi possível obter os dados requisitados!", "Mensagem do Programa", JOptionPane.ERROR_MESSAGE);
+        }
+
+    // Comandos SQL/Informações:
+    String sql = "";
+    String msg = "";
+
+    // Verificando se foram inseridos valores nos campos de texto:
+    if ("Digite a Placa...".equals(placa) || comboBoxClone.isEmpty()) 
+    {
+        JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos solicitados!", "Mensagem do Programa", JOptionPane.ERROR_MESSAGE);
+    } 
+    else 
+    {
+        if(placa.length() == 7){
+            if (placa.matches("[A-Z]{3}[0-9]{1}[A-Z]{1}[0-9]{2}") || placa.matches("^[A-Z]{3}[0-9]{4}$"))
+            {
+                // Verificando se os dados são válidos:
+                if (linha_selecionada == tbl_veiculos.getSelectedRow() && placa.equals(tfPlaca.getText()) && comboBoxClone.equals(jcb_morador.getSelectedItem().toString())) 
+                {
+                    try {
+                        // Verificando se algum registro foi realmente selecionado:
+                        if (idVeiculo != -1) 
+                        {
+                            sql = "UPDATE veiculos SET num_registro = ?, placa_veiculo = ? WHERE id_veiculos = ?";
+                            msg = "Alteração de registro";
+
+                            ps = con.prepareStatement(sql);
+                            ps.setInt(1, getIdMoradorSelecionado()); // Define num_registro
+                            ps.setString(2, placa); // Define placa_veiculo
+                            ps.setInt(3, idVeiculo);
+
+                            ps.executeUpdate();
+
+                            JOptionPane.showMessageDialog(null, msg + " realizada com sucesso!!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+                        } 
+                        else 
+                        {
+                            JOptionPane.showMessageDialog(null, "Erro ao selecionar registro!!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+                        }
+
+                        String pesquisa = "SELECT veiculos.*, morador.* " +
+                                "FROM condominio " +
+                                "INNER JOIN morador ON condominio.id_condominio = morador.id_condominio " +
+                                "INNER JOIN veiculos ON morador.num_registro = veiculos.num_registro " +
+                                "WHERE condominio.id_condominio = ?"; // Usando um parâmetro
+
+                        ps = con.prepareStatement(pesquisa);
+                        ps.setInt(1, id_cond);
+                        rs = ps.executeQuery();
+                        rs.first();
+                        preencherTabela();
+
+                        // Definindo para as configurações iniciais:
+                        limparCampos();
+                        btn_Criar.setEnabled(true);
+                        btn_Alterar.setEnabled(false);
+                        btn_Excluir.setEnabled(false);
+
+                    } 
+                    catch (SQLException errosql) 
+                    {
+                        JOptionPane.showMessageDialog(null, "\n Erro na gravação: \n " + errosql, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } 
+                else 
+                {
+                    JOptionPane.showMessageDialog(null, "Erro ao selecionar registro!!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "A placa não está no formato válido!", "Mensagem do Programa", JOptionPane.ERROR_MESSAGE);
+            }
+        } 
+        else
+        {
+            JOptionPane.showMessageDialog(null, "O valor da placa é inválido! Verifique os dados e digite novamente");
+        }        
+    }        
+    }//GEN-LAST:event_btn_AlterarActionPerformed
+
+    private void btn_ExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ExcluirActionPerformed
+    // Armazenando valores dos campos de texto e linha selecionada em atributos:
+    int linha_selecionada = tbl_veiculos.getSelectedRow();
+    int idVeiculo = getIdVeiculoSelecionado();
+    String placa = tfPlaca.getText();
+    String comboBoxClone = jcb_morador.getSelectedItem().toString();
+    
+    if (comboBoxClone != null) {
+        String[] parts = comboBoxClone.split(" - ");
+            if (parts.length == 2)
+            {
+                String nomeMorador = parts[0];
+                setNomeMoradorSelecionado(nomeMorador);
+                String numeroAp = parts[1];
+                setNumeroApSelecionado(numeroAp);
+                
+                try {
+                    String pesquisaIdMorador = "SELECT num_registro FROM morador WHERE nome_morador = ? AND numeroAp = ?";
+                    ps = con.prepareStatement(pesquisaIdMorador);
+                    ps.setString(1, nomeMorador);
+                    ps.setString(2, numeroAp);
+
+                    rs = ps.executeQuery();
+                    if (rs.next()) {
+                        int idMorador = rs.getInt("num_registro");
+                        setIdMoradorSelecionado(idMorador);
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Não foi possível obter os dados requisitados!", "Mensagem do Programa", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Não foi possível obter os dados requisitados!", "Mensagem do Programa", JOptionPane.ERROR_MESSAGE);
+        }
+
+    // Comandos SQL/Informações:
+    String sql = "";
+    String msg = "";
+
+    // Verificando se os dados são válidos:
+    if (linha_selecionada == tbl_veiculos.getSelectedRow() && placa.equals(tfPlaca.getText()) && comboBoxClone.equals(jcb_morador.getSelectedItem().toString())) 
+        {
+            try {
+                // Verificando se algum registro foi realmente selecionado:
+                if (idVeiculo != -1) 
+                {
+                    sql = "DELETE FROM veiculos WHERE id_veiculos = ?";
+                    msg = "Exclusão de registro";
+                    
+                    ps = con.prepareStatement(sql);
+                    ps.setInt(1, idVeiculo);
+
+                    ps.executeUpdate();
+
+                    JOptionPane.showMessageDialog(null, msg + " realizada com sucesso!!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+                } 
+                else 
+                {
+                    JOptionPane.showMessageDialog(null, "Erro ao selecionar registro!!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                String pesquisa = "SELECT veiculos.*, morador.* " +
+                                  "FROM condominio " +
+                                  "INNER JOIN morador ON condominio.id_condominio = morador.id_condominio " +
+                                  "INNER JOIN veiculos ON morador.num_registro = veiculos.num_registro " +
+                                  "WHERE condominio.id_condominio = ?"; // Usando um parâmetro
+
+                ps = con.prepareStatement(pesquisa);
+                ps.setInt(1, id_cond);
+                rs = ps.executeQuery();
+                rs.first();
+                preencherTabela();
+
+                // Definindo para as configurações iniciais:
+                limparCampos();
+                btn_Criar.setEnabled(true);
+                btn_Alterar.setEnabled(false);
+                btn_Excluir.setEnabled(false);
+
+                } 
+                catch (SQLException errosql) 
+                {
+                    JOptionPane.showMessageDialog(null, "\n Erro na exclusão: \n " + errosql, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+                }
+        } 
+        else 
+        {
+            JOptionPane.showMessageDialog(null, "Erro ao selecionar registro!!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }        
+    }//GEN-LAST:event_btn_ExcluirActionPerformed
+
+    private void tbl_veiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_veiculosMouseClicked
+        int linha_selecionada = tbl_veiculos.getSelectedRow();
+        btn_Criar.setEnabled(false);
+        btn_Alterar.setEnabled(true);
+        btn_Excluir.setEnabled(true);
+        tfPlaca.setText(tbl_veiculos.getValueAt(linha_selecionada, 1).toString());
+        tfPlaca.setForeground(new Color(0, 0, 0));
+        
+        // Verifique se uma linha foi selecionada
+        if (linha_selecionada >= 0) {
+            String placa = (String) tbl_veiculos.getValueAt(linha_selecionada, 1);
+
+            // Executando uma consulta para obter o ID do morador com base no nome e número do apartamento:
+            try {
+                String pesquisaIdMorador = "SELECT veiculos.num_registro, morador.numeroAp, morador.nome_morador, veiculos.id_veiculos " +
+                        "FROM veiculos " +
+                        "INNER JOIN morador ON veiculos.num_registro = morador.num_registro " +
+                        "WHERE placa_veiculo = ?";
+                ps = con.prepareStatement(pesquisaIdMorador);
+                ps.setString(1, placa);
+
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    String numAp = rs.getString("numeroAp");
+                    String nomeMorador = rs.getString("nome_morador");
+                    jcb_morador.setSelectedItem(nomeMorador + " - " + numAp);
+                    int idVeiculos = rs.getInt("id_veiculos");
+                    setIdVeiculoSelecionado(idVeiculos);
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Não foi possível obter os dados requisitados!", "Mensagem do Programa", JOptionPane.ERROR_MESSAGE);
+            }
+        }       
+    }//GEN-LAST:event_tbl_veiculosMouseClicked
+
+    private void tfPlacaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfPlacaFocusGained
+        if(tfPlaca.getText().equals("Digite a Placa..."))
+        {
+            tfPlaca.setText("");
+            tfPlaca.setForeground(new Color(0,0,0));
+        }
+    }//GEN-LAST:event_tfPlacaFocusGained
+
+    private void tfPlacaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfPlacaFocusLost
+        if(tfPlaca.getText().equals(""))
+        {
+            tfPlaca.setText("Digite a Placa...");
+            tfPlaca.setForeground(new Color(153,153,153));
+        }                
+    }//GEN-LAST:event_tfPlacaFocusLost
+
+    private void logo(){
+            ImageIcon imageIcon = new ImageIcon(getClass().getResource("/img/logo/SRs.png"));
+            Image scaleImage = imageIcon.getImage().getScaledInstance(170, 170,Image.SCALE_DEFAULT);
+            ImageIcon img = new ImageIcon(scaleImage);
+            lblLogo.setIcon(img);
+    }
+    
+    private void atualizarComboBox(){
+        String pesquisa = "SELECT * FROM morador WHERE id_condominio = ?";
+        try 
+        {
+            ps = con.prepareStatement(pesquisa);
+            ps.setInt(1, id_cond);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                jcb_morador.addItem(rs.getString("nome_morador") + " - " + rs.getString("numeroAp"));
+            }
+        }
+        catch (SQLException e) 
+        {
+            JOptionPane.showMessageDialog(null, "A listagem de dados falhou!", "Mensagem do Programa", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    //Esse método chama os componentes da tabela do banco, e os colocam no jtable:
+    private void preencherTabela(){
+        tbl_veiculos.getColumnModel().getColumn(0).setPreferredWidth(120);
+        tbl_veiculos.getColumnModel().getColumn(1).setPreferredWidth(120);
+        
+        DefaultTableModel modelo = (DefaultTableModel) tbl_veiculos.getModel();
+        modelo.setNumRows(0);
+        
+        try 
+        {
+            rs.beforeFirst();
+            while(rs.next())
+            {
+                modelo.addRow
+                (
+                        new Object[]
+                        {
+                            rs.getString("nome_morador"), rs.getString("placa_veiculo")
+                        }
+                );
+            }
+        }
+        catch(SQLException erro)
+        {
+            JOptionPane.showMessageDialog(null,"\n Erro ao listar dados da tabela!! :\n ","Mensagem do Programa",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    //Esse método redefine os campos presentes na interface, voltando para o seu estado inicial:
+    private void limparCampos()
+    {
+        jcb_morador.setSelectedIndex(0);
+        tfPlaca.setText("Digite a Placa...");
+        tfPlaca.setForeground(new Color(153,153,153));
+    }
+    
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel back1;
+    private javax.swing.JPanel back2;
+    private javax.swing.JPanel back3;
+    private javax.swing.JButton btn_Alterar;
+    private javax.swing.JButton btn_Criar;
+    private javax.swing.JButton btn_Excluir;
+    private javax.swing.JButton btn_exit;
+    private javax.swing.JButton btn_gerenc_ent;
+    private javax.swing.JButton btn_gerenc_mor;
+    private javax.swing.JButton btn_gerenc_vei;
+    private javax.swing.JButton btn_home;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> jcb_morador;
+    private javax.swing.JLabel lblLogo;
+    private javax.swing.JLabel lbl_Titulo;
+    private javax.swing.JTable tbl_veiculos;
+    private javax.swing.JTextField tfPlaca;
+    // End of variables declaration//GEN-END:variables
+}
