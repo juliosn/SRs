@@ -2,14 +2,14 @@
 
 <img width="37.5%" height="37.5%" src="https://github.com/juliosn/SRs/assets/99426563/a0a56c51-00de-4181-9634-5f1d880bdc38">
 
-## Sobre
-<p align="justify">Devido ao aumento constante do número de veículos em circulação pelo mundo, surgem desafios na gestão de tráfego, especialmente no gerenciamento do trânsito e no controle de acesso em estacionamentos, tanto em locais públicos quanto privados. Isso é especialmente presenciado em regiões densamente povoadas, como o estado de São Paulo. </p>
-<p align="justify">Segundo dados da Secretaria Nacional de Trânsito (SENATRAN), em 2022, a frota de veículos registrados no país ultrapassava 115 milhões, sendo que aproximadamente 35 milhões desses veículos estavam no estado de São Paulo. </p>
-<p align="justify"> Essa quantidade excessiva de veículos em uma única região justifica os problemas de congestionamento e dificuldades no controle de acesso. Diante dos dados apresentados, nos questionamos: o que podemos desenvolver para solucionar esses problemas relacionados a gestão de tráfego? </p>
-<p align="justify"> Este projeto teve como objetivo o desenvolvimento de uma simulação de um sistema de reconhecimento de placas veiculares, visando automatizar o controle de acesso em estacionamentos de condomínios. Permitindo assim a otimização do processo de entrada, e uma melhoria no gerenciamento de tráfego. 
-O sistema possui uma aplicação para controle de dados relacionados ao condomínio. Além de um dispositivo que realiza a identificação das placas veiculares e a possível liberação do veículo para acessar o local.</p>
+## About
+<p align="justify">Due to the constant increase in the number of vehicles in circulation around the world, challenges arise in traffic, especially in its management and access control in parking lots, both in public and private places. This is especially seen in densely populated regions, such as the state of São Paulo. </p>
+<p align="justify">According to data from the Secretaria Nacional do Trânsito (SENATRAN), in 2022, the fleet of vehicles registered in the country exceeded 115 million, with approximately 35 million of these vehicles being in the state of São Paulo. </p>
+<p align="justify"> This excessive number of vehicles in a single region justifies the problems of congestion and difficulties in access control. Given the data presented, the question arises: what can we develop to solve these problems related to traffic management?   </p>
+<p align="justify"> This project aims to develop a simulation of a license plate recognition system, aiming to automate access control in condominium parking lots. Thus allowing the optimization of the entry process and an improvement in traffic management. 
+The system has an application for controlling data related to the condominium. In addition to a device that performs the identification of vehicle license plates and the possible release of the vehicle to access the place. </p>
 
-## Tecnologias Utilizadas
+## Technologies Used
 <p align="left"> 
   &emsp;
   <a href="https://www.java.com" target="_blank"> 
@@ -28,8 +28,8 @@ O sistema possui uma aplicação para controle de dados relacionados ao condomí
   
 </p>
 
-## Demonstração do projeto
-<h3>Aplicação</h3>
+## Project's Demonstration
+<h3>Aplication</h3>
 
 <h4>Login</h4>
 <img src="https://github.com/juliosn/SRs/assets/99426563/30e55956-9e45-4c74-9c04-edf7b02ac427">
@@ -37,37 +37,37 @@ O sistema possui uma aplicação para controle de dados relacionados ao condomí
 <h4>Menu - Admin</h4>
 <img src="https://github.com/juliosn/SRs/assets/99426563/b2e31867-a999-4e5b-8846-ad8489cb67e3">
 
-<h4>Admin: Gerenciar Condomínios</h4>
+<h4>Admin: Manage Condominiums</h4>
 <img src="https://github.com/juliosn/SRs/assets/99426563/8a20355f-495f-4f1e-8171-2d9292758ae8">
 
-<h4>Admin: Pré-Gerenciamento de Porteiros</h4>
+<h4>Admin: Gatekeeper's Pre-Management </h4>
 <img src="https://github.com/juliosn/SRs/assets/99426563/232539bb-408e-4cdb-ac1e-2f2db9c3c7d9">
 
-<h4>Admin: Gerenciamento de Porteiros</h4>
+<h4>Admin: Manage Gatekeeper</h4>
 <img src="https://github.com/juliosn/SRs/assets/99426563/a8f54f52-9120-48a6-bd19-a9d9fcb9bd19">
 
-<h4>Admin: Condomínios Inativos</h4>
+<h4>Admin: Inactivated Condominiums</h4>
 <img src="https://github.com/juliosn/SRs/assets/99426563/b7edbf0e-f3bb-445d-95e3-91f84748960b">
 
-<h4>Admin: Porteiros Inativos</h4>
+<h4>Admin: Inactivated Gatekeepers</h4>
 <img src="https://github.com/juliosn/SRs/assets/99426563/887aa85f-ed74-49dd-9fb5-4febc04ae84d">
 
-<h4>Menu - Porteiro</h4>
+<h4>Menu - Gatekeeper</h4>
 <img src="https://github.com/juliosn/SRs/assets/99426563/326dd81a-5962-48b8-a10b-5c6591c60ddb">
 
-<h4>Porteiro: Gerenciar Moradores</h4>
+<h4>Gatekeeper: Manage Residents</h4>
 <img src="https://github.com/juliosn/SRs/assets/99426563/f47a129e-b7b9-4162-8cd1-c156838644b2">
 
-<h4>Porteiro: Gerenciar Veículos</h4>
+<h4>Gatekeeper: Manage Vehicles</h4>
 <img src="https://github.com/juliosn/SRs/assets/99426563/baeea449-6861-43eb-b4bf-494a807056e3">
 
-<h4>Porteiro: Histórico de Entradas</h4>
+<h4>Gatekeeper: Entry History</h4>
 <img src="https://github.com/juliosn/SRs/assets/99426563/a95e070e-0751-49dc-b240-8b4f074aaf6c">
 
-<h3>Dispositivo</h3>
+<h3>Device</h3>
 
-<h4>Componentes do Dispositivo</h4>
+<h4>Device's Components</h4>
 <img src="https://github.com/juliosn/SRs/assets/99426563/88e2013d-b541-4c43-88f4-2927c28f84ba">
 
-<h4>Funcionamento interno do Dispositivo</h4>
+<h4>Device's Internal Working</h4>
 <video src="https://github.com/juliosn/SRs/assets/99426563/afac2802-4fd9-40bc-9a19-674bf10586c3">
